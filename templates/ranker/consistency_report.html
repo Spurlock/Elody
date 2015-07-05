@@ -1,0 +1,17 @@
+{% extends "ranker/index.html" %}
+
+{% block content %}
+
+    <table class="table">
+        <tr><th>Artist</th><th>Album</th><th>Needs More Stars?</th><th>Needs Fewer Stars?</th></tr>
+        {% for adjustment in adjustments %}
+            <tr>
+                <td>{{ adjustment.album.artist.name }}</td>
+                <td>{{ adjustment.album.title }}</td>
+                <td>{{ adjustment.needs_more }}</td>
+                <td>{{ adjustment.needs_fewer }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}

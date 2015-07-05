@@ -1,0 +1,76 @@
+body{
+    background:#EFEFEF;
+}
+.wrap{
+    width:800px;
+    margin:0 auto;
+}
+.header{
+    padding:15px 1px;
+    display:flex;
+}
+.header > * {
+    flex:1;
+}
+.header h1{
+}
+.nav{
+    text-align:right;
+    padding-top:40px;
+}
+.nav a{
+    margin-left:15px;
+}
+.stars{
+    overflow:hidden;
+    white-space:nowrap;
+    width:0;
+}
+.stars1{width:7px;}
+.stars2{width:14px; color:#555555;}
+.stars3{width:21px; color:#5B1200;}
+.stars4{width:28px; color:#8B4513;}
+.stars5{width:35px; color:#A00000;}
+.stars6{width:42px; color:#803070;}
+.stars7{width:49px; color:mediumpurple;}
+.stars8{width:56px; color:#428bca;}
+.stars9{width:63px; color:#7EB895;}
+.stars10{width:70px;color:#DAA520;}
+.album_tiles{
+    margin-top:20px;
+    text-align:center;
+}
+.album_tile{
+    float:left;
+    border:1px solid #AAA;
+    border-radius:4px;
+    padding:20px;
+    margin-left:10px;
+    background:#FFF;
+    width:395px;
+    text-align:left;
+    box-sizing:border-box;
+}
+.album_tile:first-child{
+    margin-left:0;
+}
+.album_tile .text{
+    padding-left:100px;
+    margin-bottom:10px;
+}
+.album_tile h4{
+    margin-top:0;
+}
+.album_tile p{
+    margin-bottom:0;
+}
+.album_tile .thumb{
+    width:90px;
+    height:90px;
+    float:left;
+    background-color:#CCC;
+    margin-bottom:20px;
+}
+.album_tile .winner_btn{
+    clear:both;
+}

@@ -1,0 +1,33 @@
+{% extends "ranker/index.html" %}
+
+{% block content %}
+
+    <form id="match" method="post">
+
+        <input type="hidden" name="album_ids" id="album_ids" value="{{ album_ids }}" />
+        <input type="hidden" name="winner" id="winner" value="" />
+        <input type="hidden" name="loser" id="loser" value="" />
+
+        {% csrf_token %}
+
+        <div class="album_tiles">
+            {% for album in albums %}
+
+                <div class="album_tile">
+                    <img class="thumb" src="{{ album.artwork }}" />
+                    <div class="text">
+                        <h4>{{ album.title }}</h4>
+                        <p>{{ album.artist.name }}</p>
+                    </div>
+
+                    <input type="submit" data-winner="{{ album.id }}" name="submit" value="Winner" class="btn btn-default winner_btn btn-block" />
+                </div>
+
+            {% endfor %}
+
+            <div style="clear:both"></div>
+        </div>
+
+    </form>
+
+{% endblock %}

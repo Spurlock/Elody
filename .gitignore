@@ -1,0 +1,10 @@
+
+.idea/*
+
+*.pyc
+
+Elody/environment.py
+
+rym_data.csv
+
+rym-050514.csv
