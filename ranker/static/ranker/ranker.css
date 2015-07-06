@@ -25,17 +25,20 @@ body{
     overflow:hidden;
     white-space:nowrap;
     width:0;
+    text-shadow:0 0 4px #FFF;
 }
-.stars1{width:7px;}
-.stars2{width:14px; color:#555555;}
-.stars3{width:21px; color:#5B1200;}
-.stars4{width:28px; color:#8B4513;}
-.stars5{width:35px; color:#A00000;}
-.stars6{width:42px; color:#803070;}
-.stars7{width:49px; color:mediumpurple;}
-.stars8{width:56px; color:#428bca;}
-.stars9{width:63px; color:#7EB895;}
-.stars10{width:70px;color:#DAA520;}
+
+.stars1{width:7px;  color:hsl(252,50%,60%);}
+.stars2{width:14px; color:hsl(288,50%,60%);}
+.stars3{width:21px; color:hsl(324,50%,55%);}
+.stars4{width:28px; color:hsl(0,  50%,55%);}
+.stars5{width:35px; color:hsl(36, 50%,50%);}
+.stars6{width:42px; color:hsl(72, 50%,50%);}
+.stars7{width:49px; color:hsl(108,50%,45%);}
+.stars8{width:56px; color:hsl(144,50%,45%);}
+.stars9{width:63px; color:hsl(180,50%,40%);}
+.stars10{width:70px;color:hsl(216,50%,40%);}
+
 .album_tiles{
     margin-top:20px;
     text-align:center;
