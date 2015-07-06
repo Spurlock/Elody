@@ -7,6 +7,8 @@ from ranker.functions import *
 import random
 from math import ceil
 
+
+# Home page / Leaderboard
 def index(request):
     albums = Album.objects.all().order_by('-current_rating')
     context = {
@@ -15,12 +17,16 @@ def index(request):
     }
     return render_to_response('ranker/index.html', context)
 
+
+# Process the results of the previous match and present the next one
 def match(request, select=None):
 
     if request.method == "POST":
         update_scores(request.POST['winner'], request.POST['loser'])
         return HttpResponseRedirect('/match/%s' % select)
 
+    # Pair up albums for the next match. The "select" argument determines the algorithm
+    # used to choose the albums.
     if select == 'random':
         albums = list(Album.objects.order_by('?')[0:2])
 
@@ -50,8 +56,9 @@ def match(request, select=None):
             elif album.matches == potential_first_albums[0].matches:
                 potential_first_albums.append(album)
 
+        print "%d albums remaining in round:" % len(potential_first_albums)
         print [album.title for album in potential_first_albums]
-        print "%d remaining in round" % len(potential_first_albums)
+
         first_album = random.choice(potential_first_albums)
 
         # remove the first album and its most recent opponents from the opponent candidate list.
@@ -66,7 +73,7 @@ def match(request, select=None):
         all_albums.pop(first_album_index)
 
         # choose a suitable opponent, where the distance from first album is inversely related to its number of matches
-        slice_size = len(all_albums) * ((5.0 ** (1+first_album.matches)) / (6.0 ** (1+first_album.matches)))
+        slice_size = len(all_albums) * ((5.0 ** (1 + first_album.matches)) / (6.0 ** (1 + first_album.matches)))
         slice_size = max(slice_size, 12)
         lower_bound = max(0, first_album_index - int(ceil(slice_size / 2)))
         upper_bound = min(len(all_albums), first_album_index + int(ceil(slice_size / 2)))
@@ -74,6 +81,7 @@ def match(request, select=None):
 
         albums = [first_album, second_album]
 
+    # If we don't have album art for either of the chosen albums, try to grab it now
     for album in albums:
         if not album.artwork:
             album.artwork = get_thumb_url(album)
@@ -89,6 +97,9 @@ def match(request, select=None):
     })
     return render_to_response('ranker/match.html', context)
 
+
+# Figure out which albums have inconsistent star ratings. Inconsistent means that there are bunch of
+# with higher Elo scores but lower star ratings, or vice versa.
 def consistency_report(request):
     all_albums = Album.objects.all().order_by('-current_rating', 'title')
 

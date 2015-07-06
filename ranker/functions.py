@@ -5,30 +5,32 @@ import urllib2
 import json
 import Elody.environment as env
 
+
 def update_scores(winner_id, loser_id):
 
     winner = Album.objects.get(id=winner_id)
     loser = Album.objects.get(id=loser_id)
 
-    #Record the match
+    # Record the match
     match = Match(winner=winner, loser=loser, winner_rating=winner.current_rating, loser_rating=loser.current_rating)
     match.save()
 
+    # Compute the numbers we need in order to update the albums' scores.
     winner_expected = 1 / (1 + 10**((loser.current_rating - winner.current_rating)/400))
     loser_expected = 1 - winner_expected
-
     winner_k = get_k_factor(winner)
     loser_k = get_k_factor(loser)
 
+    # Compute the updated scores
     winner_new = winner.current_rating + winner_k * (1 - winner_expected)
     loser_new = loser.current_rating + loser_k * (0 - loser_expected)
 
     print "WINNER: %d K factor,\t%f win chance, %d old_rating, %f new_rating" % (winner_k, winner_expected, winner.current_rating, winner_new)
     print "LOSER:  %d K factor,\t%f win chance, %d old_rating, %f new_rating" % (loser_k, loser_expected, loser.current_rating, loser_new)
 
+    # Save the updated scores
     winner.current_rating = int(round(winner_new))
     loser.current_rating = int(round(loser_new))
-
     winner.save()
     loser.save()
 
@@ -37,6 +39,8 @@ def get_k_factor(album):
     total_matches = album.matches_won.count() + album.matches_lost.count()
     return max(40 - total_matches, 10)
 
+
+# Fetch the album art URL from last.fm
 def get_thumb_url(album):
     # TODO: Use unidecode to handle special characters
     try:
