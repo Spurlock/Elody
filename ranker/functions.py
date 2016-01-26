@@ -25,8 +25,8 @@ def update_scores(winner_id, loser_id):
     winner_new = winner.current_rating + winner_k * (1 - winner_expected)
     loser_new = loser.current_rating + loser_k * (0 - loser_expected)
 
-    print "WINNER: %d K factor,\t%f win chance, %d old_rating, %f new_rating" % (winner_k, winner_expected, winner.current_rating, winner_new)
-    print "LOSER:  %d K factor,\t%f win chance, %d old_rating, %f new_rating" % (loser_k, loser_expected, loser.current_rating, loser_new)
+    print "WINNER: %d K, %0.1f%% chance, %d -> %0.0f" % (winner_k, winner_expected*100, winner.current_rating, winner_new)
+    print "LOSER:  %d K, %0.1f%% chance, %d -> %0.0f" % (loser_k, loser_expected*100, loser.current_rating, loser_new)
 
     # Save the updated scores
     winner.current_rating = int(round(winner_new))

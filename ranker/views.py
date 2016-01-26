@@ -6,6 +6,7 @@ from ranker.models import Artist, Album
 from ranker.functions import *
 import random
 from math import ceil
+from pprint import pprint
 
 
 # Home page / Leaderboard
@@ -56,8 +57,8 @@ def match(request, select=None):
             elif album.matches == potential_first_albums[0].matches:
                 potential_first_albums.append(album)
 
-        print "%d albums remaining in round:" % len(potential_first_albums)
-        print [album.title for album in potential_first_albums]
+        print "%d albums remaining in round %d:" % (len(potential_first_albums), potential_first_albums[0].matches)
+        # print [album.title for album in potential_first_albums]
 
         first_album = random.choice(potential_first_albums)
 
@@ -77,8 +78,21 @@ def match(request, select=None):
         slice_size = max(slice_size, 12)
         lower_bound = max(0, first_album_index - int(ceil(slice_size / 2)))
         upper_bound = min(len(all_albums), first_album_index + int(ceil(slice_size / 2)))
-        second_album = random.choice(all_albums[lower_bound:upper_bound])
 
+        potential_opponents = all_albums[lower_bound:upper_bound]
+
+        # prefer opponents who are tied for fewest matches
+        less_known_albums = []
+        min_matches = None
+        for album in potential_opponents:
+            matches = album.matches_lost.count() + album.matches_won.count()
+            if min_matches is None or matches < min_matches:
+                less_known_albums = [album]
+                min_matches = matches
+            elif matches == min_matches:
+                less_known_albums.append(album)
+
+        second_album = random.choice(less_known_albums) if len(less_known_albums) >= 3 else random.choice(potential_opponents)
         albums = [first_album, second_album]
 
     # If we don't have album art for either of the chosen albums, try to grab it now

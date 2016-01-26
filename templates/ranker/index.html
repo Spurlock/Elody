@@ -31,11 +31,12 @@
         <div class="main">
             {% block content %}
                 <table class="table">
-                    <tr><th>Artist</th><th>Album</th><th>Score</th><th>Star Rating</th></tr>
+                    <tr><th></th><th>Album</th><th>Artist</th><th>Score</th><th>Star Rating</th></tr>
                     {% for album in albums %}
                         <tr>
-                            <td>{{ album.artist.name }}</td>
+                            <td>{{ forloop.counter }}</td>
                             <td>{{ album.title }}</td>
+                            <td>{{ album.artist.name }}</td>
                             <td>{{ album.current_rating }}</td>
                             <td>
                                 <div class="stars stars{{ album.star_rating }}">
