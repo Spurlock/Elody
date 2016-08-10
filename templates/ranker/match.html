@@ -2,32 +2,29 @@
 
 {% block content %}
 
-    <form id="match" method="post">
+    <div class="album_tiles">
+        {% for album in albums %}
 
-        <input type="hidden" name="album_ids" id="album_ids" value="{{ album_ids }}" />
-        <input type="hidden" name="winner" id="winner" value="" />
-        <input type="hidden" name="loser" id="loser" value="" />
-
-        {% csrf_token %}
-
-        <div class="album_tiles">
-            {% for album in albums %}
-
-                <div class="album_tile">
-                    <img class="thumb" src="{{ album.artwork }}" />
-                    <div class="text">
-                        <h4>{{ album.title }}</h4>
-                        <p>{{ album.artist.name }}</p>
-                    </div>
-
-                    <input type="submit" data-winner="{{ album.id }}" name="submit" value="Winner" class="btn btn-default winner_btn btn-block" />
+            <form class="album_tile" method="post">
+                {% csrf_token %}
+                <img class="thumb" src="{{ album.artwork }}" />
+                <div class="text">
+                    <h4>{{ album.title }}</h4>
+                    <p>{{ album.artist.name }}</p>
                 </div>
 
-            {% endfor %}
+                <input type="hidden" name="winner" id="winner" value="{{ album.id }}" />
+                {% if forloop.last %}
+                    <input type="hidden" name="loser" id="loser" value="{{ albums.0.id }}" />
+                {%  else %}
+                    <input type="hidden" name="loser" id="loser" value="{{ albums.1.id }}" />
+                {% endif %}
+                <input type="submit" data-winner="{{ album.id }}" name="submit" value="Winner" class="btn btn-default winner_btn btn-block" />
+            </form>
 
-            <div style="clear:both"></div>
-        </div>
+        {% endfor %}
 
-    </form>
+        <div style="clear:both"></div>
+    </div>
 
 {% endblock %}

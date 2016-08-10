@@ -107,7 +107,6 @@ def match(request, select=None):
         'title': 'Match',
         'select': select.replace("-", " ").title(),
         'albums': albums,
-        'album_ids': "|".join([str(album.id) for album in albums])
     })
     return render_to_response('ranker/match.html', context)
 
