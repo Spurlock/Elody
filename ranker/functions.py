@@ -1,7 +1,7 @@
 from __future__ import division
 from ranker.models import Album, Match
-from urllib import urlencode
-import urllib2
+from urllib.parse import urlencode, quote_plus
+from urllib.request import urlopen
 import json
 import Elody.environment as env
 
@@ -25,8 +25,8 @@ def update_scores(winner_id, loser_id):
     winner_new = winner.current_rating + winner_k * (1 - winner_expected)
     loser_new = loser.current_rating + loser_k * (0 - loser_expected)
 
-    print "WINNER: %d K, %0.1f%% chance, %d -> %0.0f" % (winner_k, winner_expected*100, winner.current_rating, winner_new)
-    print "LOSER:  %d K, %0.1f%% chance, %d -> %0.0f" % (loser_k, loser_expected*100, loser.current_rating, loser_new)
+    # print("WINNER: %d K, %0.1f%% chance, %d -> %0.0f" % (winner_k, winner_expected*100, winner.current_rating, winner_new))
+    # print("LOSER:  %d K, %0.1f%% chance, %d -> %0.0f" % (loser_k, loser_expected*100, loser.current_rating, loser_new))
 
     # Save the updated scores
     winner.current_rating = int(round(winner_new))
@@ -51,8 +51,8 @@ def get_thumb_url(album):
             'album': album.title,
             'format': 'json'
         })
-        response = urllib2.urlopen('http://ws.audioscrobbler.com/2.0/?'+params)
-        print 'http://ws.audioscrobbler.com/2.0/?'+params
+
+        response = urlopen(urlencode(params, quote_via=quote_plus))
         if response:
             raw_response = response.read()
             album_info = json.loads(raw_response)

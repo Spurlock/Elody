@@ -42,7 +42,7 @@ Automatically fetches it using Last.fm's API.
 
 ### Installation/Requirements
 
-Elody was built on Python 2.7.5, Django 1.7.7, and MySQL. I recommend using Django Admin with it. The front end uses Bootstrap 3.2 and a little bit of jQuery just because I was feeling lazy.
+Elody was built on Python 3.9 and MariaDB. Python dependencies are in requirements.txt. 
 
 Database config, Django's secret key, and the API key for Last.fm are stored in **environment.py**. You'll want to edit **environment_blank.py** and save it without the "_blank".
 

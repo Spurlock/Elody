@@ -1,7 +1,8 @@
-from django.conf.urls import patterns, include, url
+from django.urls import path, include
 from django.contrib import admin
+import ranker
 
-urlpatterns = patterns('',
-    url(r'^', include('ranker.urls')),
-    url(r'^admin/', include(admin.site.urls)),
-)
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('ranker.urls'))
+]
